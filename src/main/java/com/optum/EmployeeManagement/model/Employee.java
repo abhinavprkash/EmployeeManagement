@@ -1,6 +1,5 @@
 package com.optum.EmployeeManagement.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
