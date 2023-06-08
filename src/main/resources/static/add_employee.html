@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Add Employee</title>
+  <title>Update Employee</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <h1>Add Employee</h1>
+<h1>Update Employee</h1>
 
-  <div class="container">
-    <form>
-      <label for="firstName">First Name:</label>
-      <input type="text" id="firstName" name="firstName">
+<div class="container">
+  <form action="/employees/update" method="POST">
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name" value="John">
 
-      <label for="lastName">Last Name:</label>
-      <input type="text" id="lastName" name="lastName">
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name" value="Doe">
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email">
+    <label for="email_id">Email:</label>
+    <input type="email" id="email_id" name="email_id" value="john.doe@example.com">
 
-      <button type="submit">Add Employee</button>
-    </form>
-  </div>
+    <button type="submit">Update Employee</button>
+  </form>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
