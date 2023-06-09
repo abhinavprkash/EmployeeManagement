@@ -1,27 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Update Employee</title>
+  <title>Add Employee</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<h1>Update Employee</h1>
+<h1>Add Employee</h1>
+<form id="addEmployeeForm">
+  <label for="firstName">First Name</label>
+  <input type="text" id="firstName" name="firstName" required><br><br>
+  <label for="lastName">Last Name</label>
+  <input type="text" id="lastName" name="lastName" required><br><br>
+  <label for="emailId">Email ID</label>
+  <input type="email" id="emailId" name="emailId" required><br><br>
+  <input type="submit" value="Submit">
+</form>
 
-<div class="container">
-  <form action="/employees/update" method="POST">
-    <label for="first_name">First Name:</label>
-    <input type="text" id="first_name" name="first_name" value="John">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#addEmployeeForm').submit(function(event) {
+      event.preventDefault(); // Prevent form submission
 
-    <label for="last_name">Last Name:</label>
-    <input type="text" id="last_name" name="last_name" value="Doe">
+      // Create an object with form data
+      var employee = {
+        firstName: $('#firstName').val(),
+        lastName: $('#lastName').val(),
+        emailId: $('#emailId').val()
+      };
 
-    <label for="email_id">Email:</label>
-    <input type="email" id="email_id" name="email_id" value="john.doe@example.com">
-
-    <button type="submit">Update Employee</button>
-  </form>
-</div>
-
-<script src="script.js"></script>
+      // Send a POST request to create the employee
+      $.ajax({
+        url: 'http://localhost:8080/api/v1/employees',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(employee),
+        success: function(response) {
+          console.log('Employee created successfully:', response);
+          // Handle success here (e.g., show a success message)
+        },
+        error: function(error) {
+          console.error('Error creating employee:', error);
+          // Handle error here (e.g., show an error message)
+        }
+      });
+    });
+  });
+</script>
 </body>
 </html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Employee</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="card col-md-6 offset-md-3 offset-md-3">
+                    <h3 class="text-center">Update Employee</h3>
+                    <div class="card-body">
+                        <form id="updateForm">
+                            <div class="form-group">
+                                <label>First Name:</label>
+                                <input placeholder="First Name" name="firstName" class="form-control" id="firstNameInput">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name:</label>
+                                <input placeholder="Last Name" name="lastName" class="form-control" id="lastNameInput">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Id:</label>
+                                <input placeholder="Email Address" name="emailId" class="form-control" id="emailInput">
+                            </div>
+
+                            <button class="btn btn-success" id="saveButton">Save</button>
+                            <button class="btn btn-danger" style="margin-left: 10px;" id="cancelButton">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        // JavaScript code for handling events and functionality
+        document.addEventListener("DOMContentLoaded", function() {
+            var updateForm = document.getElementById("updateForm");
+            var firstNameInput = document.getElementById("firstNameInput");
+            var lastNameInput = document.getElementById("lastNameInput");
+            var emailInput = document.getElementById("emailInput");
+            var saveButton = document.getElementById("saveButton");
+            var cancelButton = document.getElementById("cancelButton");
+
+            // Save button event handler
+            saveButton.addEventListener("click", function(event) {
+                event.preventDefault();
+                var employee = {
+                    firstName: firstNameInput.value,
+                    lastName: lastNameInput.value,
+                    emailId: emailInput.value
+                };
+                // Perform your desired action with the employee data
+                console.log("Employee data:", employee);
+                // Add your code to send the data to the server or perform other actions
+            });
+
+            // Cancel button event handler
+            cancelButton.addEventListener("click", function(event) {
+                event.preventDefault();
+                // Perform your desired action when cancel button is clicked
+                console.log("Cancel button clicked");
+                // Add your code to handle cancel button action
+            });
+        });
+    </script>
+</body>
+</html>
