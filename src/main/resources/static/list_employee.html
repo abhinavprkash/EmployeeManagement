@@ -26,29 +26,29 @@
     $(document).ready(function () {
       // Fetch and display employee data
       function fetchEmployees() {
-        $.ajax({
-          url: "/api/v1/employees",
-          type: "GET",
-          success: function (data) {
-            var tbody = $("#employeeTable tbody");
-            tbody.empty();
-            data.forEach(function (employee) {
-              var row = "<tr>";
-              row += "<td>" + employee.id + "</td>";
-              row += "<td>" + employee.firstName + "</td>";
-              row += "<td>" + employee.lastName + "</td>";
-              row += "<td>" + employee.emailId + "</td>";
-              row += "<td>";
-              row += "<button onclick='editEmployee(" + employee.id + ")'>Edit</button> ";
-              row += "<button onclick='deleteEmployee(" + employee.id + ")'>Delete</button> ";
-              row += "<button onclick='viewEmployee(" + employee.id + ")'>View</button>";
-              row += "</td>";
-              row += "</tr>";
-              tbody.append(row);
-            });
-          }
-        });
-      }
+  $.ajax({
+    url: "/api/v1/employees",
+    type: "GET",
+    success: function (data) {
+      var tbody = $("#employeeTable tbody");
+      tbody.empty();
+      data.forEach(function (employee) {
+        var row = "<tr>";
+        row += "<td>" + employee.id + "</td>";
+        row += "<td>" + employee.firstName + "</td>";
+        row += "<td>" + employee.lastName + "</td>";
+        row += "<td>" + employee.emailId + "</td>";
+        row += "<td>";
+        row += "<button onclick='editEmployee(" + employee.id + ")'>Edit</button> ";
+        row += "<button onclick='deleteEmployee(" + employee.id + ")'>Delete</button> ";
+        row += "<button onclick='viewEmployee(" + employee.id + ")'>View</button>";
+        row += "</td>";
+        row += "</tr>";
+        tbody.append(row);
+      });
+    }
+  });
+}
 
       // Delete employee
       function deleteEmployee(employeeId) {

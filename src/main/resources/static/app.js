@@ -1,28 +1,31 @@
-import axios from 'axios';
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import ListEmployeeComponent from './components/ListEmployeeComponent';
+import HeaderComponent from './components/HeaderComponent';
+import FooterComponent from './components/FooterComponent';
+import CreateEmployeeComponent from './components/CreateEmployeeComponent';
+import ViewEmployeeComponent from './components/ViewEmployeeComponent';
 
-const EMPLOYEE_API_BASE_URL = "http://localhost:8080/api/v1/employees";
-
-class EmployeeService {
-
-    getEmployees(){
-        return axios.get(EMPLOYEE_API_BASE_URL);
-    }
-
-    createEmployee(employee){
-        return axios.post(EMPLOYEE_API_BASE_URL, employee);
-    }
-
-    getEmployeeById(employeeId){
-        return axios.get(EMPLOYEE_API_BASE_URL + '/' + employeeId);
-    }
-
-    updateEmployee(employee, employeeId){
-        return axios.put(EMPLOYEE_API_BASE_URL + '/' + employeeId, employee);
-    }
-
-    deleteEmployee(employeeId){
-        return axios.delete(EMPLOYEE_API_BASE_URL + '/' + employeeId);
-    }
+function App() {
+  return (
+    <div>
+        <Router>
+              <HeaderComponent />
+                <div className="container">
+                    <Switch> 
+                          <Route path = "/" exact component = {ListEmployeeComponent}></Route>
+                          <Route path = "/employees" component = {ListEmployeeComponent}></Route>
+                          <Route path = "/add-employee/:id" component = {CreateEmployeeComponent}></Route>
+                          <Route path = "/view-employee/:id" component = {ViewEmployeeComponent}></Route>
+                    </Switch>
+                </div>
+              <FooterComponent />
+        </Router>
+    </div>
+    
+  );
 }
 
-export default new EmployeeService()
+export default App;
