@@ -23,57 +23,57 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    $(document).ready(function () {
-      // Fetch and display employee data
-      function fetchEmployees() {
-  $.ajax({
-    url: "/api/v1/employees",
-    type: "GET",
-    success: function (data) {
-      var tbody = $("#employeeTable tbody");
-      tbody.empty();
-      data.forEach(function (employee) {
-        var row = "<tr>";
-        row += "<td>" + employee.id + "</td>";
-        row += "<td>" + employee.firstName + "</td>";
-        row += "<td>" + employee.lastName + "</td>";
-        row += "<td>" + employee.emailId + "</td>";
-        row += "<td>";
-        row += "<button onclick='editEmployee(" + employee.id + ")'>Edit</button> ";
-        row += "<button onclick='deleteEmployee(" + employee.id + ")'>Delete</button> ";
-        row += "<button onclick='viewEmployee(" + employee.id + ")'>View</button>";
-        row += "</td>";
-        row += "</tr>";
-        tbody.append(row);
+    // Fetch and display employee data
+    function fetchEmployees() {
+      $.ajax({
+        url: "/api/v1/employees",
+        type: "GET",
+        success: function (data) {
+          var tbody = $("#employeeTable tbody");
+          tbody.empty();
+          data.forEach(function (employee) {
+            var row = "<tr>";
+            row += "<td>" + employee.id + "</td>";
+            row += "<td>" + employee.firstName + "</td>";
+            row += "<td>" + employee.lastName + "</td>";
+            row += "<td>" + employee.emailId + "</td>";
+            row += "<td>";
+            row += "<button onclick='editEmployee(" + employee.id + ")'>Edit</button> ";
+            row += "<button onclick='deleteEmployee(" + employee.id + ")'>Delete</button> ";
+            row += "<button onclick='viewEmployee(" + employee.id + ")'>View</button>";
+            row += "</td>";
+            row += "</tr>";
+            tbody.append(row);
+          });
+        }
       });
     }
-  });
-}
 
-      // Delete employee
-      function deleteEmployee(employeeId) {
-        $.ajax({
-          url: "/api/v1/employees/" + employeeId,
-          type: "DELETE",
-          success: function () {
-            // Refresh the table after successful deletion
-            fetchEmployees();
-          }
-        });
-      }
+    // Delete employee
+    function deleteEmployee(employeeId) {
+      $.ajax({
+        url: "/api/v1/employees/" + employeeId,
+        type: "DELETE",
+        success: function () {
+          // Refresh the table after successful deletion
+          fetchEmployees();
+        }
+      });
+    }
 
-      // View employee details
-      function viewEmployee(employeeId) {
-        // Redirect to the view page with the employeeId as a parameter
-        window.location.href = "/view_employee.html?employeeId=" + employeeId;
-      }
+    // View employee details
+    function viewEmployee(employeeId) {
+      // Redirect to the view page with the employeeId as a parameter
+      window.location.href = "/view_employee.html?employeeId=" + employeeId;
+    }
 
-      // Edit employee details
-      function editEmployee(employeeId) {
-        // Redirect to the edit page with the employeeId as a parameter
-        window.location.href = "edit_employee.html?employeeId=" + employeeId;
-      }
+    // Edit employee details
+    function editEmployee(employeeId) {
+      // Redirect to the edit page with the employeeId as a parameter
+      window.location.href = "/edit_employee.html?employeeId=" + employeeId;
+    }
 
+    $(document).ready(function () {
       // Call fetchEmployees on page load
       fetchEmployees();
     });

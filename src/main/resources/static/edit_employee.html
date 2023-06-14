@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <script src="scripts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // JavaScript code for handling events and functionality
         document.addEventListener("DOMContentLoaded", function() {
@@ -48,27 +48,51 @@
             var saveButton = document.getElementById("saveButton");
             var cancelButton = document.getElementById("cancelButton");
 
+            // Retrieve the employee data and populate the form fields
+            var employeeId = window.location.search.split("=")[1];
+            $.get("/api/v1/employees/" + employeeId, function(response) {
+                firstNameInput.value = response.firstName;
+                lastNameInput.value = response.lastName;
+                emailInput.value = response.emailId;
+            });
+
             // Save button event handler
             saveButton.addEventListener("click", function(event) {
                 event.preventDefault();
-                var employee = {
+                var updatedEmployee = {
                     firstName: firstNameInput.value,
                     lastName: lastNameInput.value,
                     emailId: emailInput.value
                 };
-                // Perform your desired action with the employee data
-                console.log("Employee data:", employee);
-                // Add your code to send the data to the server or perform other actions
+                
+                // Perform AJAX request to update employee data
+                $.ajax({
+                    url: '/api/v1/employees/' + employeeId,
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(updatedEmployee),
+                    success: function(response) {
+                        // Handle successful response
+                        console.log("Employee updated successfully:", response);
+                        // Add your code to handle success case (e.g., show a success message)
+                    },
+                    error: function(error) {
+                        // Handle error response
+                        console.error("Error updating employee:", error);
+                        // Add your code to handle error case (e.g., show an error message)
+                    }
+                });
             });
 
             // Cancel button event handler
             cancelButton.addEventListener("click", function(event) {
                 event.preventDefault();
-                // Perform your desired action when cancel button is clicked
-                console.log("Cancel button clicked");
-                // Add your code to handle cancel button action
+                // Add your code to handle cancel button click
             });
+
         });
+
     </script>
+    
 </body>
 </html>
