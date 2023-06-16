@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.optum.EmployeeManagement.model.Employee;
+import com.optum.EmployeeManagement.model.Department;
 import com.optum.EmployeeManagement.repository.EmployeeRepository;
+import com.optum.EmployeeManagement.repository.DepartmentRepository;
 import com.optum.EmployeeManagement.exception.ResourceNotFoundException;
 
 @CrossOrigin(origins = "*")
@@ -27,6 +29,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     // get all employees
     @GetMapping("/employees")
@@ -57,6 +62,7 @@ public class EmployeeController {
         employee.setFirstName(employeeDetails.getFirstName());
         employee.setLastName(employeeDetails.getLastName());
         employee.setEmailId(employeeDetails.getEmailId());
+        employee.setDepartment(employeeDetails.getDepartment());
 
         Employee updatedEmployee = employeeRepository.save(employee);
         return ResponseEntity.ok(updatedEmployee);
@@ -72,5 +78,11 @@ public class EmployeeController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    // Fetch departments
+    @GetMapping("/departments")
+    public List<Department> getAllDepartments() {
+        return departmentRepository.findAll();
     }
 }

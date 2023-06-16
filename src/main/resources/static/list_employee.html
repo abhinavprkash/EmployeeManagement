@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>View Employees</title>
+  <title>View Employees and Departments</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <h1>View Employees</h1>
+  <h1>View Employees and Departments</h1>
   <table id="employeeTable">
     <thead>
       <tr>
@@ -13,17 +13,18 @@
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email ID</th>
+        <th>Department</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Employee data will be dynamically added here -->
+      <!-- Employee and Department data will be dynamically added here -->
     </tbody>
   </table>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    // Fetch and display employee data
+    // Fetch and display employee and department data
     function fetchEmployees() {
       $.ajax({
         url: "/api/v1/employees",
@@ -37,6 +38,7 @@
             row += "<td>" + employee.firstName + "</td>";
             row += "<td>" + employee.lastName + "</td>";
             row += "<td>" + employee.emailId + "</td>";
+            row += "<td>" + employee.department + "</td>"; // Display the department
             row += "<td>";
             row += "<button onclick='editEmployee(" + employee.id + ")'>Edit</button> ";
             row += "<button onclick='deleteEmployee(" + employee.id + ")'>Delete</button> ";
