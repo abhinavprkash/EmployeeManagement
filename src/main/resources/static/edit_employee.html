@@ -27,7 +27,10 @@
                                 <label>Email Id:</label>
                                 <input placeholder="Email Address" name="emailId" class="form-control" id="emailInput">
                             </div>
-
+                            <div class="form-group">
+                                <label>Department:</label>
+                                <select name="department" class="form-control" id="departmentInput"></select>
+                            </div>
                             <button class="btn btn-success" id="saveButton">Save</button>
                             <button class="btn btn-danger" style="margin-left: 10px;" id="cancelButton">Cancel</button>
                         </form>
@@ -38,61 +41,81 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        // JavaScript code for handling events and functionality
-        document.addEventListener("DOMContentLoaded", function() {
-            var updateForm = document.getElementById("updateForm");
-            var firstNameInput = document.getElementById("firstNameInput");
-            var lastNameInput = document.getElementById("lastNameInput");
-            var emailInput = document.getElementById("emailInput");
-            var saveButton = document.getElementById("saveButton");
-            var cancelButton = document.getElementById("cancelButton");
+<script>
+    // JavaScript code for handling events and functionality
+    document.addEventListener("DOMContentLoaded", function() {
+        var updateForm = document.getElementById("updateForm");
+        var firstNameInput = document.getElementById("firstNameInput");
+        var lastNameInput = document.getElementById("lastNameInput");
+        var emailInput = document.getElementById("emailInput");
+        var departmentInput = document.getElementById("departmentInput");
+        var saveButton = document.getElementById("saveButton");
+        var cancelButton = document.getElementById("cancelButton");
 
-            // Retrieve the employee data and populate the form fields
-            var employeeId = window.location.search.split("=")[1];
-            $.get("/api/v1/employees/" + employeeId, function(response) {
-                firstNameInput.value = response.firstName;
-                lastNameInput.value = response.lastName;
-                emailInput.value = response.emailId;
-            });
-
-            // Save button event handler
-            saveButton.addEventListener("click", function(event) {
-                event.preventDefault();
-                var updatedEmployee = {
-                    firstName: firstNameInput.value,
-                    lastName: lastNameInput.value,
-                    emailId: emailInput.value
-                };
-                
-                // Perform AJAX request to update employee data
-                $.ajax({
-                    url: '/api/v1/employees/' + employeeId,
-                    type: 'PUT',
-                    contentType: 'application/json',
-                    data: JSON.stringify(updatedEmployee),
-                    success: function(response) {
-                        // Handle successful response
-                        console.log("Employee updated successfully:", response);
-                        // Add your code to handle success case (e.g., show a success message)
-                    },
-                    error: function(error) {
-                        // Handle error response
-                        console.error("Error updating employee:", error);
-                        // Add your code to handle error case (e.g., show an error message)
-                    }
-                });
-            });
-
-            // Cancel button event handler
-            cancelButton.addEventListener("click", function(event) {
-                event.preventDefault();
-                // Add your code to handle cancel button click
-            });
-
+        // Retrieve the employee data and populate the form fields
+        var employeeId = window.location.search.split("=")[1];
+        $.get("/api/v1/employees/" + employeeId, function(response) {
+            firstNameInput.value = response.firstName;
+            lastNameInput.value = response.lastName;
+            emailInput.value = response.emailId;
+            departmentInput.value = response.department.id; // Updated line
         });
 
-    </script>
-    
+        // Fetch departments from the server and populate the department select element
+        $.ajax({
+            url: '/api/v1/departments',
+            type: 'GET',
+            success: function(response) {
+                response.forEach(function(department) {
+                    var option = document.createElement("option");
+                    option.value = department.id;
+                    option.text = department.name;
+                    departmentInput.appendChild(option);
+                });
+            },
+            error: function(error) {
+                console.error('Error fetching departments:', error);
+                // Handle error here (e.g., show an error message)
+            }
+        });
+
+        // Save button event handler
+        saveButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            var updatedEmployee = {
+                firstName: firstNameInput.value,
+                lastName: lastNameInput.value,
+                emailId: emailInput.value,
+                department: {
+                    id: departmentInput.value // Updated line
+                }
+            };
+            
+            // Perform AJAX request to update employee data
+            $.ajax({
+                url: '/api/v1/employees/' + employeeId,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(updatedEmployee),
+                success: function(response) {
+                    // Handle successful response
+                    console.log("Employee updated successfully:", response);
+                    // Add your code to handle success case (e.g., show a success message)
+                },
+                error: function(error) {
+                    // Handle error response
+                    console.error("Error updating employee:", error);
+                    // Add your code to handle error case (e.g., show an error message)
+                }
+            });
+        });
+
+        // Cancel button event handler
+        cancelButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            // Add your code to handle cancel button click
+        });
+    });
+</script>
 </body>
 </html>

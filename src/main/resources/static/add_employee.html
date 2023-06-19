@@ -28,18 +28,16 @@
       url: 'http://localhost:8080/api/v1/departments',
       type: 'GET',
       success: function(response) {
-        // Populate the department dropdown with options
-        var departmentDropdown = $('#department');
-        departmentDropdown.empty(); // Clear existing options
+          var departmentDropdown = $('#department');
+          departmentDropdown.empty();
 
-        // Add a default option
-        departmentDropdown.append($('<option>').val('').text('Select Department'));
+          departmentDropdown.append($('<option>').val('').text('Select Department'));
 
-        // Add options for each department
-        response.forEach(function(department) {
-          departmentDropdown.append($('<option>').val(department.id).text(department.name));
-        });
+          response.forEach(function(department) {
+              departmentDropdown.append($('<option>').val(department.id).text(department.name));
+          });
       },
+
       error: function(error) {
         console.error('Error fetching departments:', error);
         // Handle error here (e.g., show an error message)
@@ -54,7 +52,9 @@
         firstName: $('#firstName').val(),
         lastName: $('#lastName').val(),
         emailId: $('#emailId').val(),
-        departmentId: $('#department').val()
+        department: {
+          id: $('#department').val()
+        }
       };
 
       // Send a POST request to create the employee

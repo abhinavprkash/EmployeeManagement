@@ -3,24 +3,18 @@ package com.optum.EmployeeManagement.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.optum.EmployeeManagement.model.Employee;
-import com.optum.EmployeeManagement.model.Department;
-import com.optum.EmployeeManagement.repository.EmployeeRepository;
-import com.optum.EmployeeManagement.repository.DepartmentRepository;
+import com.optum.EmployeeManagement.model.EmployeeDTO;
 import com.optum.EmployeeManagement.exception.ResourceNotFoundException;
+import com.optum.EmployeeManagement.model.Department;
+import com.optum.EmployeeManagement.model.Employee;
+import com.optum.EmployeeManagement.repository.DepartmentRepository;
+import com.optum.EmployeeManagement.repository.EmployeeRepository;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -35,8 +29,11 @@ public class EmployeeController {
 
     // get all employees
     @GetMapping("/employees")
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    public List<EmployeeDTO> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     // create employee rest api
@@ -47,15 +44,16 @@ public class EmployeeController {
 
     // get employee by id rest api
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
-        return ResponseEntity.ok(employee);
+        EmployeeDTO employeeDTO = convertToDTO(employee);
+        return ResponseEntity.ok(employeeDTO);
     }
 
     // update employee rest api
     @PutMapping("/employees/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
+    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
 
@@ -65,7 +63,8 @@ public class EmployeeController {
         employee.setDepartment(employeeDetails.getDepartment());
 
         Employee updatedEmployee = employeeRepository.save(employee);
-        return ResponseEntity.ok(updatedEmployee);
+        EmployeeDTO updatedEmployeeDTO = convertToDTO(updatedEmployee);
+        return ResponseEntity.ok(updatedEmployeeDTO);
     }
 
     // delete employee rest api
@@ -85,4 +84,22 @@ public class EmployeeController {
     public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
     }
+    
+    // Helper method to convert Employee entity to EmployeeDTO
+   private EmployeeDTO convertToDTO(Employee employee) {
+    EmployeeDTO employeeDTO = new EmployeeDTO();
+    employeeDTO.setId(employee.getId());
+    employeeDTO.setFirstName(employee.getFirstName());
+    employeeDTO.setLastName(employee.getLastName());
+    employeeDTO.setEmailId(employee.getEmailId());
+    
+    Department department = employee.getDepartment();
+    if (department != null) {
+        employeeDTO.setDepartment(department.getName());
+    }
+    
+    return employeeDTO;
+}
+
+
 }

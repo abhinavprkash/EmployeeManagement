@@ -25,6 +25,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     // Fetch and display employee and department data
+    $.ajaxSetup({ beforeSend: function(xhr) { xhr.setRequestHeader('X-HTTP-Method-Override', 'DELETE'); } });
     function fetchEmployees() {
       $.ajax({
         url: "/api/v1/employees",
