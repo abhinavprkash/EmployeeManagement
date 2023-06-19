@@ -7,16 +7,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "departments")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name="department")
 public class Department {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
+    private Long id;
+    @Column(name = "department_name")
+    private String department;
 
-    @Column(name = "name")
-    private String name;
+    public Long getId() {
+        return id;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
