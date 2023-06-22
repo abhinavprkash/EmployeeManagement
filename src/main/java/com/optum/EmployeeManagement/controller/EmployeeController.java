@@ -25,22 +25,12 @@ public class EmployeeController {
 
         return "employees";
     }
-//    @GetMapping("/login")
-//    public String login() {
-//        return "login";
-//    }
-//    @GetMapping("/")
-//    public String home(Model model) {
-//
-//        model.addAttribute("employees",userService.getAllEmployees());
-//
-//        return "redirect:/employees";
-//    }
-@GetMapping("/login")
-public String login() {
-    return "login";
-}
-    @GetMapping("/")
+    @GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+	
+	@GetMapping("/")
     public String home(Model model) {
 
         model.addAttribute("employees",userService.getAllEmployees());
